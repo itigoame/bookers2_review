@@ -1,7 +1,7 @@
 <div class= "col-3">
   <h2>User info</h2>
-    <% if @user.profile_image.present? %>
-      <%= image_tag @user.profile_image,size: "100x100" %>
+    <% if user.profile_image.present? %>
+      <%= image_tag user.profile_image,size: "100x100" %>
     <% else %>
       <%= image_tag "ot113.png",size: "100x100" %>
     <% end %>
@@ -9,10 +9,10 @@
   <table class="table">
     <tr>
       <th>name</th>
-      <th><%= @user.name %></th>
+      <th><%= user.name %></th>
     <tr>
       <th>introduction</td></th>
-      <th><%= @user.introduction %></th>
+      <th><%= user.introduction %></th>
     </tr>
   </table>
   <div class = "mb-2">
@@ -22,7 +22,7 @@
   </div>
 
   <h2>New Book</h2>
-    <%= form_with model: @user do |f| %>
+    <%= form_with model: book do |f| %>
       <div class ="mb-2">
         <%= f.label :title %><br>
         <%= f.text_field :title %><br>

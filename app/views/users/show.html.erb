@@ -1,5 +1,36 @@
 <div class="container">
   <div class="row">
-    <%= render "info",user: @user %>
+    <%= render "info",user: @user,book: @book_new %>
+    <div class="col-8 offset-md-1">
+      <h2>Books</h2>
+      <table class ="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+          <tr>
+            <td>
+              <%= link_to user_path(@user.id) do %>
+
+              <% if @user.profile_image.present? %>
+                <%= image_tag @user.profile_image,size: "100x100" %>
+              <% else %>
+                <%= image_tag "ot113.png",size: "100x100" %>
+              <% end %>
+
+              <% end %>
+            </td>
+            <td><%= book.title %></td>
+            <td><%= book.body %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

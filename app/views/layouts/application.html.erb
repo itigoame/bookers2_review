@@ -17,11 +17,11 @@
 
       <% if user_signed_in? %>
         <nav class="nav justify-content-end">
-          <span class="text-white　align-bottom  mr-auto navbar-brand">Bookers</span>
+          <span class="text-white align-bottom  mr-auto navbar-brand">Bookers</span>
             <ul class =" nav justify-content-end align-items-center">
 
               <li class="nav-item mr-3">
-                <%= link_to root_path, class: "text-white" do %>
+                <%= link_to user_path(current_user.id), class: "text-white" do %>
                   <i class="fas fa-home"></i>home
                 <% end %>
               </li>
@@ -49,7 +49,7 @@
 
       <% else %>
         <nav class="nav">
-        <span class="text-white　align-bottom mr-auto navbar-brand">Bookers</span>
+        <span class="text-white align-bottom mr-auto navbar-brand">Bookers</span>
           <ul class =" nav justify-content-end align-items-center">
             <li class="nav-item mr-3">
               <%= link_to root_path, class: "text-white" do %>
