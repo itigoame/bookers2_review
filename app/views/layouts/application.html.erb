@@ -17,12 +17,12 @@
 
       <% if user_signed_in? %>
         <nav class="nav justify-content-end">
-          <span class="text-white align-bottom  mr-auto navbar-brand">Bookers</span>
+          <%= link_to "Bookers",root_path,class: "text-white align-bottom  mr-auto navbar-brand" %>
             <ul class =" nav justify-content-end align-items-center">
 
               <li class="nav-item mr-3">
                 <%= link_to user_path(current_user.id), class: "text-white" do %>
-                  <i class="fas fa-home"></i>home
+                  <i class="fas fa-home"></i>Home
                 <% end %>
               </li>
 
@@ -49,11 +49,11 @@
 
       <% else %>
         <nav class="nav">
-        <span class="text-white align-bottom mr-auto navbar-brand">Bookers</span>
+        <%= link_to "Bookers",root_path,class: "text-white align-bottom  mr-auto navbar-brand" %>
           <ul class =" nav justify-content-end align-items-center">
             <li class="nav-item mr-3">
               <%= link_to root_path, class: "text-white" do %>
-                <i class="fas fa-home"></i>home
+                <i class="fas fa-home"></i>Home
               <% end %>
             </li>
 
@@ -65,7 +65,7 @@
 
               <li class="nav-item mr-3">
                 <%= link_to new_user_registration_path, class: "text-white" do %>
-                <i class="fas fa-user-plus"></i>Sign Up
+                <i class="fas fa-user-plus"></i>Sign up
               </li>
               <% end %>
 
@@ -82,6 +82,7 @@
   </header>
 
   <main>
+    <p><%= flash[:notice] %></p>
     <%= yield %>
   </main>
 

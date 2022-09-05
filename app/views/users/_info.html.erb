@@ -1,4 +1,5 @@
-<div class= "col-3">
+<div class= "col-md-3">
+
   <h2>User info</h2>
     <% if user.profile_image.present? %>
       <%= image_tag user.profile_image,size: "100x100" %>
@@ -21,7 +22,7 @@
     <% end %>
   </div>
 
-  <h2>New Book</h2>
+  <h2>New book</h2>
     <%= form_with model: book do |f| %>
       <div class ="mb-2">
         <%= f.label :title %><br>
