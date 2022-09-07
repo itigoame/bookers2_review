@@ -1,0 +1,55 @@
+<div class="container">
+<h2><%= @range %> serch for "<%= params[:word] %>"</h2>
+
+<% if @range == "User" %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Introduction</th>
+        </tr>
+      </thead>
+      <% @users.each do |user| %>
+      <tbody>
+        <tr>
+          <td>
+            <% if user.profile_image.present? %>
+              <%= image_tag user.profile_image, size: "80x80"%>
+            <% else %>
+              <%= image_tag "ot113.png",size: "80x80" %>
+            <% end %>
+          </td>
+          <td><%= link_to user.name,user_path(user.id) %></td>
+          <td><%= user.introduction %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    </table>
+<% else %>
+  <% @books.each do |book| %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Opinion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <% if book.user.profile_image.present? %>
+              <%= image_tag book.user.profile_image, size: "80x80"%>
+            <% else %>
+              <%= image_tag "ot113.png",size: "80x80" %>
+            <% end %>
+          </td>
+          <td><%= link_to book.title,book_path(book.id) %></td>
+          <td><%= book.body %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
+</div>

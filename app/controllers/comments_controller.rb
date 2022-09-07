@@ -1,16 +1,22 @@
 class CommentsController < ApplicationController
   def create
-    @book = Book.find(params[:id])
-    @comment = current_user.comments.new(book_id: @book.id)
+    @book = Book.find(params[:book_id])
+    @comment = current_user.comments.new(comment_params)
+    @comment.book_id = @book.id
     @comment.save
-    redirect_back
-
+    @comments = @book.comments
   end
 
   def destroy
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:book_id])
     @comment = current_user.comments.find_by(book_id: @book.id)
     @comment.destroy
-    redirect_back
+    @comments = @book.comments
   end
+
+  private
+  def comment_params
+    params.require(:comment).permit(:comment_text)
+  end
+
 end
