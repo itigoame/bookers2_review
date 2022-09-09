@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     @books = @user.books
 
     @book_new = Book.new
-    
+
 
   end
 
@@ -35,6 +35,16 @@ class UsersController < ApplicationController
         render :edit
       end
     end
+  end
+
+  def followers #フォローしている人一覧
+    @user = User.find(params[:id])
+    @users = @user.follower_users
+  end
+
+  def followings #フォローされている人一覧
+    @user = User.find(params[:id])
+    @users = @user.following_users
   end
 
 private
