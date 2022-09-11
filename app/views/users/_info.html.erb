@@ -37,9 +37,20 @@
         <%= link_to "フォローする", user_relationships_path(user.id), method: :post, class: "btn btn-success btn-sm" %>
       <% end %>
     <% end %>
-      <!--相互フォローの確認-->
+
+    <% unless user.id == current_user.id %>
+     <!--相互フォローの確認-->
     <% if current_user.following?(user) && user.following?(current_user) %>
-      <span><%= link_to "chatをはじめる",room_path(room.id) %></span>
+      <% if is_room == true %>
+        <%= link_to "chatをひらく", room_path(room_id) %>
+      <% else %>
+      <%= form_for room do |f| %>
+        <%= fields_for entry do |e| %>
+          <%= e.hidden_field :user_id, value: user.id %>
+          <%= f.submit, "chatをはじめる" %>
+        <% end %>
+      <% end %>
+      <% end %>
     <% end %>
   </div>
 

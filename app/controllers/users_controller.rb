@@ -5,7 +5,25 @@ class UsersController < ApplicationController
     @books = @user.books
 
     @book_new = Book.new
-    # userとbookのshowにroomの変数を指定。enrtyからidを取ってくる？
+    # dm機能
+    @current_entry = Entry.where(user_id: current_user.id)
+    @partner_entry = Entry.where(user_id: @user.id)
+
+    unless @user.id == current_user.id
+      @current_entry.each do |cu|
+        @partner_entry.each do |pu|
+          if cu.room_id == pu.room_id then
+            @is_room = true
+            @room_id = cu.room_id
+          end
+         end
+      end
+      # @is_roomが存在しない場合roomを新規作成する
+      unless @is_room
+        @room = Room.new
+        @entry = Entry.new
+      end
+    end
   end
 
   def index
