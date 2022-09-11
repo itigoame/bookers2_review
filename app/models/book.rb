@@ -1,7 +1,6 @@
 class Book < ApplicationRecord
   belongs_to :user
   has_many :favorites,dependent: :destroy
-  # faboriteモデルを使ってuserの情報を
   has_many :favorited_users, through: :favorites, source: :user
   has_many :comments,dependent: :destroy
 
