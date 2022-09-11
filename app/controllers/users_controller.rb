@@ -5,8 +5,7 @@ class UsersController < ApplicationController
     @books = @user.books
 
     @book_new = Book.new
-
-
+    # userとbookのshowにroomの変数を指定。enrtyからidを取ってくる？
   end
 
   def index

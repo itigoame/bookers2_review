@@ -37,6 +37,10 @@
         <%= link_to "フォローする", user_relationships_path(user.id), method: :post, class: "btn btn-success btn-sm" %>
       <% end %>
     <% end %>
+      <!--相互フォローの確認-->
+    <% if current_user.following?(user) && user.following?(current_user) %>
+      <span><%= link_to "chatをはじめる",room_path(room.id) %></span>
+    <% end %>
   </div>
 
   <h2>New book</h2>
