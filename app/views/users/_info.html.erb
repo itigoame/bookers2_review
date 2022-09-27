@@ -40,16 +40,17 @@
 
     <% unless user.id == current_user.id %>
      <!--相互フォローの確認-->
-    <% if current_user.following?(user) && user.following?(current_user) %>
-      <% if is_room == true %>
-        <%= link_to "chatをひらく", room_path(room_id) %>
-      <% else %>
-      <%= form_for room do |f| %>
-        <%= fields_for entry do |e| %>
-          <%= e.hidden_field :user_id, value: user.id %>
-          <%= f.submit, "chatをはじめる" %>
+      <% if current_user.following?(user) && user.following?(current_user) %>
+        <% if is_room == true %>
+          <%= link_to "chatをひらく", room_path(room_id) %>
+        <% else %>
+          <%= form_with room do |f| %>
+            <%= fields_for entry do |e| %>
+              <%= e.hidden_field :user_id, value: user.id %>
+              <%= f.submit "chatをはじめる",class: "btn btn-sm mt-3 btn-success" %>
+            <% end %>
+          <% end %>
         <% end %>
-      <% end %>
       <% end %>
     <% end %>
   </div>
@@ -62,7 +63,7 @@
       </div>
 
       <div class ="mb-2">
-        <%= f.label :body ,"Opinion"  %><br>
+        <%= f.label :body ,"Opinion" %><br>
         <%= f.text_area :body %>
       </div>
         <%= f.submit "Create Book", class: "btn btn-success btn-sm"  %>

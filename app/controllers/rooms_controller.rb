@@ -1,22 +1,24 @@
 class RoomsController < ApplicationController
-  def show
-    # DM
-    @user = User.find(params[:id])
-    @current_entry = Entry.where(user_id: current_user.id)
-    @partner_entry = Entry.where(user_id: @user.id)
 
-    unless @user.id == current_user.id
-      @current_entry.each do |current|
-        @partner_entry.each do |partner|
-          if current.room_id == partner.room_id
-            @room_id = current.room_id
-          else
-             @room = Room.create
-             @entry = Entry.create
-          end
-        end
-      end
+  def create
+    @room          = Room.create
+    @current_entry = Entry.create(room_id: @room.id, user_id: current_user.id)
+    @partner_entry = Entry.create(params.require(:entry).permit(:user_id, :room_id).merge(room_id: @room.id))
+    redirect_to room_path(@room.id)
+  end
+
+  def show
+    @room = Room.find(params[:id])
+
+    if Entry.where(user_id: current_user.id, room_id: @room.id).present?
+      @messages = @room.messages
+      @message  = Message.new
+      @entries  = @room.entries
+      @partner = @entries.where.not(user_id: current_user.id).first
+    else
+      redirect_back
     end
 
   end
+
 end
