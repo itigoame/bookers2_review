@@ -6,23 +6,27 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
-  validates :name, uniqueness: true, length:{ minimum: 2,maximum:20}
+  validates :name,         uniqueness: true, length:{ minimum: 2,maximum:20}
   validates :introduction, length:{ maximum: 50}
 
 
-  has_many :books, dependent: :destroy
+  has_many :books,     dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :comments,  dependent: :destroy
   
   # DM機能
-  has_many :entries, dependent: :destroy
+  has_many :entries,  dependent: :destroy
   has_many :messages, dependent: :destroy
+  
+  #グループトーク
+  has_many :group_users, dependent: :destroy
+  has_many :groups,      through:   :group_users, dependent: :destroy
 
   #foreign_keyを書かないとフォローしてる情報を取ってきたいのか、されてる情報を取ってきたいのか分からないのでforeign_keyで明示する。
-  has_many :followers, class_name: "Relationship",foreign_key: :follower_id, dependent: :destroy
+  has_many :followers,      class_name: "Relationship",foreign_key: :follower_id, dependent: :destroy
   has_many :follower_users, through: :followers, source: :followed #自分がフォローしてる人一覧
 
-  has_many :followings, class_name: "Relationship", foreign_key: :followed_id, dependent: :destroy
+  has_many :followings,      class_name: "Relationship", foreign_key: :followed_id, dependent: :destroy
   has_many :following_users, through: :followings, source: :follower #自分がフォローされてる人一覧
 
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: :followed_id
