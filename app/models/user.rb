@@ -19,8 +19,9 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   
   #グループトーク
-  has_many :group_users, dependent: :destroy
   has_many :groups,      through:   :group_users, dependent: :destroy
+  has_many :group_users, dependent: :destroy
+  has_many :group_chats, dependent: :destroy
 
   #foreign_keyを書かないとフォローしてる情報を取ってきたいのか、されてる情報を取ってきたいのか分からないのでforeign_keyで明示する。
   has_many :followers,      class_name: "Relationship",foreign_key: :follower_id, dependent: :destroy

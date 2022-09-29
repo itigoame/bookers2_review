@@ -44,3 +44,23 @@
     </tbody>
 
   </table>
+
+  <table>
+    <% @group_chats.each do |group_chat| %>
+      <tr>
+        <% if group_chat.user.id == current_user.id %>
+        <td><%= group_chat.body %></td>
+        <% else %>
+        <td></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+ <% if @group.users.include?(current_user) %>
+   <%= form_with model: @group_chat, url: group_group_chats_path(@group.id), method: :post do |f| %>
+     <%= f.text_area :body %>
+     <%= f.submit "送信" %>
+   <% end %>
+
+ <% end %>

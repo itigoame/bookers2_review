@@ -20,6 +20,9 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @group_users = @group.users
+    @group_chat = GroupChat.new
+
+    @group_chats = GroupChat.all
   end
 
   def join

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   resources   :groups,        only: [:new, :create, :show, :index, :edit, :update, :destroy] do
     get "join" => "groups#join"
+    resources :group_chats,   only: [:create, :destroy]
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
