@@ -1,0 +1,22 @@
+<div class ="container">
+<h3><%= @partner.user.name %>さんとのチャットルーム</h3>
+
+  <% if @messages.present? %>
+    <table>
+      <% @messages.each do |message| %>
+        <tr>
+          <td>
+            <%= message.body %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+
+  <%= form_with model: @message do |f| %>
+    <%= f.text_area :body %>
+    <%= f.hidden_field :room_id, value: @room.id %>
+    <%= f.submit %>
+
+  <% end %>
+</div>
