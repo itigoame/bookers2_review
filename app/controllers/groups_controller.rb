@@ -1,12 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :ensure_correct_user, { only: [:edit, :update, :destroy] }
-
-  def ensure_correct_user
-    @group = Group.find_by(id: params[:id])
-    return unless @group.owner_id != current_user.id
-
-    redirect_to groups_path
-  end
+  before_action :ensure_correct_user, { only: [:edit, :update] }
 
   def new
     @group = Group.new
@@ -14,7 +7,8 @@ class GroupsController < ApplicationController
 
   def create
     group = Group.new(group_params)
-    group.owner_id = current_user.id
+    group.owner = current_user.id
+    group.users << current_user
     if group.save
       redirect_to groups_path, notice: "グループを作成しました。"
     else
@@ -25,6 +19,13 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @group_users = @group.users
+  end
+
+  def join
+    @group = Group.find(params[:group_id])
+    @group.users << current_user
+    redirect_to groups_path
   end
 
   def index
@@ -48,13 +49,23 @@ class GroupsController < ApplicationController
 
   def destroy
     group = Group.find(params[:id])
-    if group.destroy
-      redirect_to groups_path, notice: "グループを削除しました。"
-    end
+    group.users.destroy(current_user)
+    redirect_to groups_path
+    # if group.destroy
+    #   redirect_to groups_path, notice: "グループを削除しました。"
+    # end
   end
 
   private
     def group_params
-      params.require(:group).permit(:name, :body, :group_image, :owner_id)
+      params.require(:group).permit(:name, :body, :group_image, :owner)
     end
+
+    def ensure_correct_user
+      @group = Group.find_by(id: params[:id])
+      unless @group.owner == current_user.id
+        redirect_to groups_path
+      end
+    end
+
 end

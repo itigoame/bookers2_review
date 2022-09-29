@@ -4,13 +4,15 @@ Rails.application.routes.draw do
   root to: "homes#top"
   get 'home/about' => "homes#about"
   get "search" => "searches#search"
+
   resources   :users,         only: [:index, :show, :edit, :update] do
     member do
       get     :followers,:followings
     end
     resource  :relationships, only: [:create, :destroy]
   end
-  resources   :books,         only: [:create, :index, :show, :edit, :update, :destroy]do
+
+  resources   :books,         only: [:create, :index, :show, :edit, :update, :destroy] do
     resource  :favorites,   　only: [:create, :destroy]
     resources :comments,      only: [:create, :destroy]
   end
@@ -18,7 +20,9 @@ Rails.application.routes.draw do
   resources   :rooms,         only: [:create, :show]
   resources   :messages,      only: [:create]
 
-  resources   :groups,        only: [:new, :create, :show, :index, :edit, :update, :destroy]
+  resources   :groups,        only: [:new, :create, :show, :index, :edit, :update, :destroy] do
+    get "join" => "groups#join"
+  end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
