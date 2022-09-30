@@ -1,66 +1,77 @@
-<h3>Groups Detail</h3>
+<div class="container">
+  <h3>Groups Detail</h3>
 
-  <table class ="table">
+    <table class ="table">
 
-    <thead>
-      <tr>
-        <th></th>
-        <th>グループ名</th>
-        <th>紹介文</th>
-        <th>メンバー</th>
-        <th></th>
-      </tr>
-    </thead>
+      <thead>
+        <tr>
+          <th></th>
+          <th>グループ名</th>
+          <th>紹介文</th>
+          <th>メンバー</th>
+          <th></th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr>
-        <td>
-          <%= image_tag @group.group_image, size: "100x100"  %>
-        </td>
-        <td>
-          <%= @group.name %>
-        </td>
-        <td>
-          <%= @group.body %>
-        <td>
-          <% @group_users.each do |groupuser| %>
-           <%= groupuser.name %><br>
-          <% end %>
-        </td>
-        </td>
-        <td>
-          <% if current_user.id == @group.owner %>
-            <%= link_to "Edit",  edit_group_path(@group.id), class: "btn btn-sm btn-success" %>
-            <%= link_to "Delete",group_path(@group.id),  method: :delete, data: {confirm: "本当に削除しますか？"}, class: "btn btn-sm btn-danger ml-2" %>
-          <% else %>
-            <% if @group.users.include?(current_user) %>
-              <%= link_to "Leave this group", group_path(@group.id), method: :delete, class: "btn btn-sm btn-danger" %>
-            <% else %>
-              <%= link_to "Join this group",group_join_path(@group), class: "btn btn-sm btn-success" %>
+      <tbody>
+        <tr>
+          <td>
+            <%= image_tag @group.group_image, size: "100x100"  %>
+          </td>
+          <td>
+            <%= @group.name %>
+          </td>
+          <td>
+            <%= @group.body %>
+          <td>
+            <% @group_users.each do |groupuser| %>
+             <%= groupuser.name %><br>
             <% end %>
-          <% end %>
-        </td>
-      </tr>
-    </tbody>
+          </td>
+          </td>
+          <td>
+            <% if current_user.id == @group.owner %>
+              <%= link_to "Edit",  edit_group_path(@group.id), class: "btn btn-sm btn-success" %>
+              <%= link_to "Delete",group_path(@group.id),  method: :delete, data: {confirm: "本当に削除しますか？"}, class: "btn btn-sm btn-danger ml-2" %>
+            <% else %>
+              <% if @group.users.include?(current_user) %>
+                <%= link_to "Leave this group", group_path(@group.id), method: :delete, class: "btn btn-sm btn-danger" %>
+              <% else %>
+                <%= link_to "Join this group",group_join_path(@group), class: "btn btn-sm btn-success" %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
 
-  </table>
+    </table>
 
-  <table>
-    <% @group_chats.each do |group_chat| %>
-      <tr>
-        <% if group_chat.user.id == current_user.id %>
-        <td><%= group_chat.body %></td>
-        <% else %>
-        <td></td>
+    <% if @group.users.include?(current_user) %>
+      <table>
+        <% @group_chats.each do |group_chat| %>
+        <tbody>
+          <tr>
+            <% if group_chat.user.id == current_user.id %>
+            <td></td>
+            <td><%= group_chat.body %></td>
+            <% else %>
+            <td>
+              <%= link_to group_chat.user.name, user_path(group_chat.user.id) %><br>
+              <%= group_chat.body %>
+            </td>
+            <td></td>
+            <% end %>
+          </tr>
+
+        </tbody>
         <% end %>
-      </tr>
+      </table>
+
+       <%= form_with model: @group_chat, url: group_group_chats_path(@group.id), method: :post do |f| %>
+         <%= f.text_area :body %>
+         <%= f.submit "送信" %>
+       <% end %>
+
     <% end %>
-  </table>
 
- <% if @group.users.include?(current_user) %>
-   <%= form_with model: @group_chat, url: group_group_chats_path(@group.id), method: :post do |f| %>
-     <%= f.text_area :body %>
-     <%= f.submit "送信" %>
-   <% end %>
-
- <% end %>
+</div>
